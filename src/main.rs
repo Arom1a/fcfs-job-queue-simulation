@@ -13,13 +13,13 @@ fn main() {
         .unwrap_or(100_000_000);
 
     println!("Running simulation with mu={MU} for {n} jobs");
-    println!("lambda,E[T],E[N]");
+    println!("lambda,E[T],E[N],rho");
 
     for lambda in LAMBDAS {
         let s = simulate(lambda, MU, n);
         println!(
-            "{},{},{}",
-            lambda, s.mean_response_time, s.mean_jobs_in_system
+            "{},{},{},{}",
+            lambda, s.mean_response_time, s.mean_jobs_in_system, s.server_utilization
         );
     }
 }

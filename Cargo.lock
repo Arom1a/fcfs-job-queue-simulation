@@ -29,7 +29,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "gen-dist"
+name = "fcfs-job-queue-simulation"
 version = "0.1.0"
 dependencies = [
  "rand",

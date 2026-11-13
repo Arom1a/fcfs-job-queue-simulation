@@ -4,6 +4,7 @@ use std::{cmp::Ordering::Less, collections::VecDeque};
 pub struct Stats {
     pub mean_response_time: f64,
     pub mean_jobs_in_system: f64,
+    pub server_utilization: f64,
 }
 
 pub fn simulate(lambda: f64, mu: f64, num_jobs: u64) -> Stats {
@@ -17,6 +18,7 @@ pub fn simulate(lambda: f64, mu: f64, num_jobs: u64) -> Stats {
     let mut running_mean_T = 0.0;
     #[allow(non_snake_case)]
     let mut running_mean_N = 0.0;
+    let mut server_busy_cnt = 0;
 
     while completed_cnt < num_jobs {
         match next_arrival.total_cmp(&next_complete) {
@@ -27,6 +29,8 @@ pub fn simulate(lambda: f64, mu: f64, num_jobs: u64) -> Stats {
                 clock = next_arrival;
                 if job_q.is_empty() {
                     next_complete = clock + gen_exp1() / mu;
+                } else {
+                    server_busy_cnt += 1;
                 }
                 job_q.push_back(clock);
 
@@ -55,5 +59,6 @@ pub fn simulate(lambda: f64, mu: f64, num_jobs: u64) -> Stats {
     Stats {
         mean_response_time: running_mean_T,
         mean_jobs_in_system: running_mean_N,
+        server_utilization: server_busy_cnt as f64 / (num_jobs as f64 + job_q.len() as f64),
     }
 }
