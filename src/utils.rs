@@ -6,7 +6,19 @@ pub fn gen_uni01() -> f64 {
 }
 
 pub fn gen_exp1() -> f64 {
-    todo!()
+    -gen_uni01().ln()
+}
+
+pub fn gen_poisson1() -> u64 {
+    let mut t = 0.0;
+    let mut count = 0;
+    loop {
+        t += gen_exp1();
+        if t > 1.0 {
+            return count;
+        }
+        count += 1;
+    }
 }
 
 pub fn gen_geom(p: f64) -> u64 {

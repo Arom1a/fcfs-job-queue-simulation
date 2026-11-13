@@ -10,7 +10,7 @@ fn main() {
 
     let mut sum: f64 = 0.0;
     for _ in 0..n {
-        sum += gen_bounded_pareto(332.067, 1e10, 1.1);
+        sum += gen_poisson1() as f64;
     }
     let avg = sum / n as f64;
     println!("Average over {} experiments: {}", n, avg);
