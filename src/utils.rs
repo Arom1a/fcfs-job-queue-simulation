@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 pub fn gen_uni01() -> f64 {
     use rand::distr::{Distribution, Open01};
     let mut rng = rand::rng();
