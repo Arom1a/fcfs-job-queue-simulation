@@ -16,10 +16,13 @@ fn main() {
     println!("lambda,E[T],E[N],rho");
 
     for lambda in LAMBDAS {
+        let t = std::time::Instant::now();
         let s = simulate(lambda, MU, n);
         println!(
             "{},{},{},{}",
             lambda, s.mean_response_time, s.mean_jobs_in_system, s.server_utilization
         );
+
+        println!("{:?}", t.elapsed());
     }
 }

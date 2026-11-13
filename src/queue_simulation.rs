@@ -8,9 +8,11 @@ pub struct Stats {
 }
 
 pub fn simulate(lambda: f64, mu: f64, num_jobs: u64) -> Stats {
+    let mut rng = rand::rng();
+
     let mut clock = 0.0;
     let mut job_q = VecDeque::new();
-    let mut next_arrival = gen_exp1() / lambda;
+    let mut next_arrival = gen_exp1(&mut rng) / lambda;
     let mut next_complete = f64::MAX;
 
     let mut completed_cnt = 0;
@@ -28,13 +30,13 @@ pub fn simulate(lambda: f64, mu: f64, num_jobs: u64) -> Stats {
 
                 clock = next_arrival;
                 if job_q.is_empty() {
-                    next_complete = clock + gen_exp1() / mu;
+                    next_complete = clock + gen_exp1(&mut rng) / mu;
                 } else {
                     server_busy_cnt += 1;
                 }
                 job_q.push_back(clock);
 
-                next_arrival = clock + gen_exp1() / lambda;
+                next_arrival = clock + gen_exp1(&mut rng) / lambda;
             }
             _ => {
                 running_mean_N +=
@@ -50,7 +52,7 @@ pub fn simulate(lambda: f64, mu: f64, num_jobs: u64) -> Stats {
                 next_complete = if job_q.is_empty() {
                     f64::MAX
                 } else {
-                    clock + gen_exp1() / mu
+                    clock + gen_exp1(&mut rng) / mu
                 };
             }
         }
